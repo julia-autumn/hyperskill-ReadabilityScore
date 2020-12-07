@@ -1,17 +1,44 @@
 package readability;
 
+import org.w3c.dom.Text;
+
 import java.io.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws java.io.FileNotFoundException, java.nio.file.FileSystemException {
-        String textline = "";
-        String age = "";
-        int sentencesCount = 0;
-        int charactersCount = 0;
-        Double score = 0D;
+        Scanner scanner = new Scanner(System.in);
+
+        TextReader textReader = new TextReader();
+        textReader.readText(args[0]);
+        TextAnalyser textAnalyser = new TextAnalyser(textReader.getText());
+        TextMetrics textMetrics = textAnalyser.Analyze();
+
+        System.out.println("The text is:\n" + textReader.getText() + "\n");
+        System.out.println("Words: " + textMetrics.getWordsNumber());
+        System.out.println("Sentences: " + textMetrics.getSentencesNumber());
+        System.out.println("Characters: " + textMetrics.getCharactersNumber());
+        System.out.println("Syllables: " + textMetrics.getSyllablesNumber());
+        System.out.println("Polysyllables: " + textMetrics.getPolysyllablesWordsNumber());
+
+        System.out.println("Enter the score you want to calculate (ARI, FK, SMOG, CL, all): ");
+
+        String sIndexName = scanner.nextLine();
+        IndexCalculation indexCalculation = new IndexCalculation();
+        indexCalculation.calculate(textMetrics, sIndexName);
+
+
+        }
+
+
+        /*        System.out.printf("The score is: %.2f", score);
+        System.out.println("\nSyllables: " + syllablesCount);
+        System.out.println("This text should be understood by " + age + " year olds.");
+*/
+
 
         //  InputStream is = new FileInputStream("c:\\file.txt");
+        /* TextReader.readText()
         try {
             File file = new File(args[0]);
 
@@ -30,17 +57,22 @@ public class Main {
             } finally {
 
         }
-
+*/
+        /* the rest
             //Scanner scanner = new Scanner(System.in);
             //String text = scanner.nextLine();
-            String[] sentences = textline.split("[.!?] ");
-            sentencesCount = sentencesCount + sentences.length;
+           // String[] sentences = textline.split("[.!?] ");
+        //    sentencesCount = sentencesCount + sentences.length;
             int wordsCount = 0;
 
             for (int i = 0; i < sentences.length; i++) {
                 String[] words = sentences[i].split(" ");
+             //   if(words[words.length - 1].endsWith("[.!?] ")
                 wordsCount = wordsCount + words.length;
+                //syllables
+                syllablesCount += syllablesCounter(words);
 
+                // characters
                 for (int j = 0; j < words.length; j++) {
                     charactersCount += words[j].length();
                 }
@@ -57,14 +89,10 @@ public class Main {
              System.out.println("HARD");
          }
 */
-            score = (4.71 * ((double) charactersCount / (double) wordsCount)+
+/*      the score      score = (4.71 * ((double) charactersCount / (double) wordsCount)+
                     0.5 * ((double) wordsCount / (double) sentencesCount) - 21.43);
-
-            System.out.println("Words: " + wordsCount);
-            System.out.println("Sentences: " + sentencesCount);
-            System.out.println("Characters: " + charactersCount);
-            System.out.printf("The score is: %.2f", score);
-
+*/
+/*
             switch ((int)Math.ceil(score)) {
                 case 1: age = "5-6";
                         break;
@@ -97,9 +125,13 @@ public class Main {
                 default: age = "0";
                          break;
             }
+*/
 
-            System.out.println("\nThis text should be understood by " + age + " year olds.");
-
-
-    }
 }
+
+
+
+
+
+
+
